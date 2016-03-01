@@ -9,4 +9,5 @@ html, body {
 canvas{
   /*background-color: yellow;*/
   opacity: 20%;
+  border: 1px solid black;  
 }
