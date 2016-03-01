@@ -1,9 +1,3 @@
-var myFirebaseRef = new Firebase("https://spacearena.firebaseio.com/");
-myFirebaseRef.set(
-  'nick'
-)
-
-
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   ctx.canvas.width = window.innerWidth * 0.8;

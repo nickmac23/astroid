@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="spaceApp">
 <head>
   <meta charset="UTF-8">
   <title>Astroid</title>
   <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
-  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+
+ <script src="https://cdn.firebase.com/js/client/2.2.5/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
   <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js'></script>
 </head>
-<body>
+<body ng-controller="SpaceController">
+
+<form name='form' novalidate>
+
+<input type="text" ng-model="text" required>
+
+<button ng-disabled="form.$invalid" ng-click="addShip(text)">Add ship</button>
+
+</form>
+
+<div ng-repeat="s in ships">
+
+  <p>{{s.shipName}}</p>
+
+</div>
+
   <canvas id="canvas"></canvas>
   <script type="text/javascript" src="app.js"></script>
+  <script src="module.js"></script>
+  <script src="controllers.js"></script>
+
 </body>
 </html>
