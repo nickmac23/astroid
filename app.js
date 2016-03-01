@@ -13,15 +13,14 @@
     astroidBig.src = 'pic/asteroid.png'
   var explode = new Image();
     explode.src = 'pic/boom.png'
-
-
   var count = 0;
+
 
 
   function Ships (pic) {
     this.x = canvas.width/2,
     this.y = canvas.height/2,
-    this.vy = 0,
+    this.vy = 0.5,
     this.vx = 0,
     this.thrust = 0.1,
     this.rad = 0,
@@ -47,22 +46,29 @@
     }
   }
   var Ship = new Ships (ship1);
-  function Asteroids (width, height, pic){
+
+  function Asteroids (width, height, size, pic){
     this.x = 0;
     this.y = 0;
     this.vx = 0;
     this.vy = 0;
+    this.size= size;
     this.img= pic;
     this.val = true;
     this.width = width;
     this.height = height;
-    this.start = function () {
-      var top = (Math.random() * (canvas.height - 0));
-      var bot = (Math.random() * (canvas.width - 0));
-      this.x = 200 * ( 1 - ( top/bot) );
-      this.y = 200 * ( 1 - ( bot/top ) );
+    this.start = function (px, py) {
       this.vx = Math.random() * (3 + 3) - 3;
       this.vy = Math.random() * (3 + 3) - 3;
+      if(px){
+        this.x = px;
+        this.y = py;
+      }else{
+        var top = (Math.random() * (canvas.height - 0));
+        var bot = (Math.random() * (canvas.width - 0));
+        this.x = 200 * ( 1 - ( top/bot) );
+        this.y = 200 * ( 1 - ( bot/top ) );
+      }
     };
     this.draw = function () {
       this.x += this.vx;
@@ -81,10 +87,13 @@
         if (this.x < bullets[i].x  &&
           this.x + this.width  > bullets[i].x &&
          this.y < bullets[i].y  &&
-         this.height - 30 + this.y > bullets[i].y) {
+         this.height - 30 + this.y > bullets[i].y && bullets[i].val === true) {
            bullets[i].val = false;
            this.img = explode;
            this.val = false;
+           if( this.size === 'big'){
+             breaker (this.x, this.y);
+           }
         }
       }
     },
@@ -95,11 +104,29 @@
       if(this.y + this.height < 0){this.y = canvas.height};
     }
   }
-  Astroid1 = new Asteroids (100, 100, astroidMed);
-  Astroid2 = new Asteroids (150, 120, astroidBig);
-  Astroid3 = new Asteroids (100, 100, astroidMed);
-  Astroid4 = new Asteroids (100, 100, astroidMed);
-  Astroid5 = new Asteroids (150, 120, astroidBig);
+
+  var collection = [];
+  var breakArray = [];
+  var small = 2;
+  var big = 1;
+  function reset () {
+    collection = [];
+    for (var x = 0; x < small; x++ ) { collection.push(new Asteroids (100, 100, 'small', astroidMed)) };
+    for (var x = 0; x < big; x++) { collection.push(new Asteroids (150, 120, 'big', astroidBig)) };
+    for (var i = 0; i < collection.length; i++) {
+      collection[i].start();
+    }
+    small++;
+    big++;
+  }
+  function breaker (x, y) {
+    for (var i = 0; i < 2; i++) {
+      collection.push(new Asteroids (100, 100, 'small', astroidMed));
+      console.log(collection.length - 1);
+      collection[ collection.length - 1].start(x, y)
+    }
+  }
+
 
   function Bullets (positionX, positionY, angle){
     this.x = positionX;
@@ -175,34 +202,27 @@
 
 
     function gameLogic() {
+      var chck = 0;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if( bullets[0].val ){
-          bullets[0].draw()
-      }if( bullets[1].val ){
-          bullets[1].draw()
-      }if( bullets[2].val ){
-          bullets[2].draw()
-      }
-      if(Astroid1.val){
-        Astroid1.draw();
-      }if(Astroid2.val){
-        Astroid2.draw();
-      }if(Astroid4.val){
-        Astroid4.draw();
-      }if(Astroid5.val){
-        Astroid5.draw();
-      }
-      if(Astroid3.val){
-        Astroid3.draw();
+      for (var i = 0; i < bullets.length; i++) {
+        if(bullets[i].val){
+          bullets[i].draw();
+        }
+      }for (var i = 0; i < collection.length; i++) {
+        if(collection[i].val){
+          chck++;
+          collection[i].draw();
+        }
+
+      }if(chck === 0){
+        reset();
       }if(Ship.val){
         Ship.draw();
       }
       window.requestAnimationFrame(gameLogic);
     }
-    Astroid1.start();
-    Astroid2.start();
-    Astroid3.start();
-    Astroid4.start();
-    Astroid5.start();
+
+
+    reset();
     gameLogic();
     //window.requestAnimationFrame(gameLogic);
