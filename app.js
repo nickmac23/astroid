@@ -2,6 +2,7 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
+console.log(ctx.canvas.width);
 
 var ship1 = new Image();
   ship1.src = 'pic/blueships1.png';
@@ -26,31 +27,38 @@ var Ship = {
     ctx.restore();
   }
 }
-var Bullet = {
-  x: 0,
-  y: 0,
-  dv: 10,
-  ang: 0,
-  val: false,
-  draw: function () {
-    this.x += this.dv * Math.sin(this.ang);
-    this.y -= this.dv * Math.cos(this.ang);
-    ctx.drawImage(bullet1, this.x - 25 , this.y - 10)
-  },
-  fire: function(x, y, dir, val) {
+
+function Bullets (positionX, positionY, angle){
+  this.x = positionX;
+  this.y = positionY;
+  this.angle = angle;
+  this.dv = 10;
+  this.val = false;
+  this.timer = 0;
+  this.fire = function (x, y, dir, val) {
     this.x = x;
     this.y = y;
-    this.ang = dir;
+    this.angle = dir;
     this.val = true;
+  };
+  this.draw = function (){
+    this.x += this.dv * Math.sin(this.angle);
+    this.y -= this.dv * Math.cos(this.angle);
+  
+    ctx.drawImage(bullet1, this.x - 25 , this.y - 10)
   }
-}
-
+};
+var Bullet = new Bullets (0, 0, Ship.rad);
+var Bullet1 = new Bullets (0, 0, Ship.rad);
 
 var keysDown = {};
 addEventListener("keydown", function (e) {
   if( e.which === 32){
-    Bullet.fire(Ship.x, Ship.y, Ship.rad, true);
-
+    if (Bullet.val) {
+      Bullet1.fire(Ship.x, Ship.y, Ship.rad, true)
+    }else{
+      Bullet.fire(Ship.x, Ship.y, Ship.rad, true);
+    }
   };
 	keysDown[e.keyCode] = true;
 }, false);
@@ -80,8 +88,11 @@ function move (key) {
 
   function gameLogic() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if( Bullet.val){
+    if( Bullet.val ){
       Bullet.draw()
+    }
+    if( Bullet1.val ){
+      Bullet1.draw()
     }
     Ship.draw();
     window.requestAnimationFrame(gameLogic);
