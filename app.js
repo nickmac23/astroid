@@ -11,7 +11,12 @@
     astroidMed.src = 'pic/Astromedium.png'
   var astroidBig = new Image();
     astroidBig.src = 'pic/asteroid.png'
+  var explode = new Image();
+    explode.src = 'pic/boom.png'
+
+
   var count = 0;
+
 
   function Ships (pic) {
     this.x = canvas.width/2,
@@ -78,6 +83,7 @@
          this.y < bullets[i].y  &&
          this.height - 30 + this.y > bullets[i].y) {
            bullets[i].val = false;
+           this.img = explode;
            this.val = false;
         }
       }
