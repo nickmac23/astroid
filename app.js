@@ -17,6 +17,7 @@ var Ship = {
   vx: 0,
   thrust: 0.1,
   rad: 0,
+  val: true,
   draw: function () {
     move();
     this.x += this.vx;
@@ -31,13 +32,15 @@ var Ship = {
 function Asteroids (){
   this.x = 0;
   this.y = 0;
-  this.vx = 1;
-  this.vy = 1;
+  this.vx = 2;
+  this.vy = 2;
+  this.val = true;
+  this.width = 190;
+  this.height = 190;
   this.start = function () {
     this.x = Math.random() * (canvas.width - 0);
     this.y = Math.random() * (canvas.height - 0);
     var check = Math.floor(Math.random() * 4);
-    console.log(check);
     if(check === 0){
       this.y = 0 + 300;
       this.vy = 2;
@@ -59,17 +62,30 @@ function Asteroids (){
     ctx.drawImage(astroid, this.x , this.y )
   }
   this.bounce = function () {
-    if( this.x + astroid.width > canvas.width || this.x < 0){
+    if( this.x + this.width > canvas.width || this.x < 0){
       this.vx = -this.vx;
     }
-    if( this.y + astroid.height > canvas.height || this.y < 0){
+    if( this.y + this.height > canvas.height || this.y < 0){
       this.vy = -this.vy;
+    }if (this.x < Ship.x  &&
+     this.x + this.width  > Ship.x &&
+     this.y < Ship.y  &&
+     this.height - 30 + this.y > Ship.y) {
+       Ship.val = false;
+    }if (this.x < Bullet.x  &&
+     this.x + this.width  > Bullet.x &&
+     this.y < Bullet.y  &&
+     this.height - 30 + this.y > Bullet.y) {
+       Bullet.val = false;
+       this.val = false;
     }
   }
 }
 Astroid1 = new Asteroids ();
 Astroid2 = new Asteroids ();
 Astroid3 = new Asteroids ();
+Astroid4 = new Asteroids ();
+Astroid5 = new Asteroids ();
 
 function Bullets (positionX, positionY, angle){
   this.x = positionX;
@@ -91,16 +107,12 @@ function Bullets (positionX, positionY, angle){
   }
 };
 var Bullet = new Bullets (0, 0, Ship.rad);
-var Bullet1 = new Bullets (0, 0, Ship.rad);
+//var Bullet1 = new Bullets (0, 0, Ship.rad);
 
 var keysDown = {};
 addEventListener("keydown", function (e) {
   if( e.which === 32){
-    if (Bullet.val) {
-      Bullet1.fire(Ship.x, Ship.y, Ship.rad, true)
-    }else{
-      Bullet.fire(Ship.x, Ship.y, Ship.rad, true);
-    }
+    Bullet.fire(Ship.x, Ship.y, Ship.rad, true);
   };
 	keysDown[e.keyCode] = true;
 }, false);
@@ -133,17 +145,26 @@ function move (key) {
     if( Bullet.val ){
       Bullet.draw()
     }
-    if( Bullet1.val ){
-      Bullet1.draw()
+    if(Astroid1.val){
+      Astroid1.draw();
+    }if(Astroid2.val){
+      Astroid2.draw();
+    }if(Astroid4.val){
+      Astroid4.draw();
+    }if(Astroid5.val){
+      Astroid5.draw();
     }
-    Astroid1.draw();
-    Astroid2.draw();
-    Astroid3.draw();
-    Ship.draw();
+    if(Astroid3.val){
+      Astroid3.draw();
+    }if(Ship.val){
+      Ship.draw();
+    }
     window.requestAnimationFrame(gameLogic);
   }
   Astroid1.start();
   Astroid2.start();
   Astroid3.start();
+  Astroid4.start();
+  Astroid5.start();
   gameLogic();
   //window.requestAnimationFrame(gameLogic);
