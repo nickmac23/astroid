@@ -225,4 +225,3 @@
 
     reset();
     gameLogic();
-    //window.requestAnimationFrame(gameLogic);

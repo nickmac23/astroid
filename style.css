@@ -1,13 +1,11 @@
 html, body {
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
-
+div {
+  border: black solid 1px;
+}
 canvas{
-
   background-image: url('pic/space.jpg');
   background-size: 100%;
   border: 1px solid black;

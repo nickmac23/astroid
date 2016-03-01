@@ -3,35 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <title>Astroid</title>
-  <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
 
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script> -->
  <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script> -->
 
  <!-- <script src="https://cdn.firebase.com/js/client/2.2.5/firebase.js"></script> -->
   <!-- <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script> -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/united/bootstrap.min.css" rel="stylesheet" integrity="sha256-mKuwI+x5TH/8YJ3N3ZHLGK0+IMRL4bZ1Me+2ylaxrwY= sha512-ltZkxhZ59a1sQYi1uob1y0iNgfeEoS8ouAdSyKMCLXDNcbNaSWM2vTpGOqmaVtri+qENaJ3YWANjGjjGX9ij8A==" crossorigin="anonymous">
   <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js'></script>
+  <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
 </head>
 <body ng-controller="SpaceController">
-
-<form name='form' novalidate>
-
-<input type="text" ng-model="text" required>
-
-<button ng-disabled="form.$invalid" ng-click="addShip(text)">Add ship</button>
-
-</form>
-
-<div ng-repeat="s in ships">
-
-  <p>{{s.shipName}}</p>
-
-</div>
-
+  <nav class="navbar navbar-default">
+    <div class="container-fluid col-lg-offset-5">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">ASTROID ARENA</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <!-- <form name='form' novalidate>
+  <input type="text" ng-model="text" required>
+  <button ng-disabled="form.$invalid" ng-click="addShip(text)">Add ship</button>
+  </form>
+  <div ng-repeat="s in ships">
+    <p>{{s.shipName}}</p>
+  </div>
+  <section></section>
   <canvas id="canvas"></canvas>
+  <section></section>
+  <footer></footer> -->
+
+
   <script type="text/javascript" src="app.js"></script>
   <!-- <script src="module.js"></script> -->
   <!-- <script src="controllers.js"></script> -->
-
 </body>
 </html>
