@@ -1,10 +1,10 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-ctx.canvas.width = window.innerWidth;
-ctx.canvas.height = window.innerHeight;
+ctx.canvas.width = window.innerWidth * 0.8;
+ctx.canvas.height = window.innerHeight * 0.8;
 
 var ship1 = new Image();
-  ship1.src = 'pic/blueships1.png';
+  ship1.src = 'pic/mship1.png';
 var bullet1 = new Image();
   bullet1.src = 'pic/Bluecenter.png';
 var astroid = new Image();
@@ -29,14 +29,14 @@ var Ship = {
     ctx.restore();
   }
 }
-function Asteroids (){
+function Asteroids (width, height){
   this.x = 0;
   this.y = 0;
   this.vx = 2;
   this.vy = 2;
   this.val = true;
-  this.width = 190;
-  this.height = 190;
+  this.width = width;
+  this.height = height;
   this.start = function () {
     this.x = Math.random() * (canvas.width - 0);
     this.y = Math.random() * (canvas.height - 0);
@@ -67,10 +67,10 @@ function Asteroids (){
     }
     if( this.y + this.height > canvas.height || this.y < 0){
       this.vy = -this.vy;
-    }if (this.x < Ship.x  &&
+    }if (this.x <= Ship.x  &&
      this.x + this.width  > Ship.x &&
      this.y < Ship.y  &&
-     this.height - 30 + this.y > Ship.y) {
+     this.height + this.y > Ship.y) {
        Ship.val = false;
     }if (this.x < Bullet.x  &&
      this.x + this.width  > Bullet.x &&
@@ -81,11 +81,11 @@ function Asteroids (){
     }
   }
 }
-Astroid1 = new Asteroids ();
-Astroid2 = new Asteroids ();
-Astroid3 = new Asteroids ();
-Astroid4 = new Asteroids ();
-Astroid5 = new Asteroids ();
+Astroid1 = new Asteroids (100, 100);
+// Astroid2 = new Asteroids ();
+// Astroid3 = new Asteroids ();
+// Astroid4 = new Asteroids ();
+// Astroid5 = new Asteroids ();
 
 function Bullets (positionX, positionY, angle){
   this.x = positionX;
@@ -147,24 +147,24 @@ function move (key) {
     }
     if(Astroid1.val){
       Astroid1.draw();
-    }if(Astroid2.val){
-      Astroid2.draw();
-    }if(Astroid4.val){
-      Astroid4.draw();
-    }if(Astroid5.val){
-      Astroid5.draw();
-    }
-    if(Astroid3.val){
-      Astroid3.draw();
+    // }if(Astroid2.val){
+    //   Astroid2.draw();
+    // }if(Astroid4.val){
+    //   Astroid4.draw();
+    // }if(Astroid5.val){
+    //   Astroid5.draw();
+    // }
+    // if(Astroid3.val){
+    //   Astroid3.draw();
     }if(Ship.val){
       Ship.draw();
     }
     window.requestAnimationFrame(gameLogic);
   }
   Astroid1.start();
-  Astroid2.start();
-  Astroid3.start();
-  Astroid4.start();
-  Astroid5.start();
+  // Astroid2.start();
+  // Astroid3.start();
+  // Astroid4.start();
+  // Astroid5.start();
   gameLogic();
   //window.requestAnimationFrame(gameLogic);
