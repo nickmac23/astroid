@@ -11,6 +11,7 @@
     astroidMed.src = 'pic/Astromedium.png'
   var astroidBig = new Image();
     astroidBig.src = 'pic/asteroid.png'
+  var count = 0;
 
   function Ships (pic) {
     this.x = canvas.width/2,
@@ -51,8 +52,10 @@
     this.width = width;
     this.height = height;
     this.start = function () {
-      this.x = Math.random() * (canvas.width - 0);
-      this.y = Math.random() * (canvas.height - 0);
+      var top = (Math.random() * (canvas.height - 0));
+      var bot = (Math.random() * (canvas.width - 0));
+      this.x = 200 * ( 1 - ( top/bot) );
+      this.y = 200 * ( 1 - ( bot/top ) );
       this.vx = Math.random() * (3 + 3) - 3;
       this.vy = Math.random() * (3 + 3) - 3;
     };
@@ -69,26 +72,28 @@
        this.y < Ship.y  &&
        this.height + this.y > Ship.y) {
          Ship.val = false;
-      }if (this.x < Bullet.x  &&
-       this.x + this.width  > Bullet.x &&
-       this.y < Bullet.y  &&
-       this.height - 30 + this.y > Bullet.y) {
-         Bullet.val = false;
-         this.val = false;
+      }for (var i = 0; i < bullets.length; i++) {
+        if (this.x < bullets[i].x  &&
+          this.x + this.width  > bullets[i].x &&
+         this.y < bullets[i].y  &&
+         this.height - 30 + this.y > bullets[i].y) {
+           bullets[i].val = false;
+           this.val = false;
+        }
       }
     },
     this.wall = function () {
       if(this.x > canvas.width){this.x = 0};
-      if(this.x < 0){this.x = canvas.width};
+      if(this.x + this.width < 0){this.x = canvas.width};
       if(this.y > canvas.height){this.y = 0};
-      if(this.y < 0){this.y = canvas.height};
+      if(this.y + this.height < 0){this.y = canvas.height};
     }
   }
   Astroid1 = new Asteroids (100, 100, astroidMed);
   Astroid2 = new Asteroids (150, 120, astroidBig);
-  // Astroid3 = new Asteroids ();
-  // Astroid4 = new Asteroids ();
-  // Astroid5 = new Asteroids ();
+  Astroid3 = new Asteroids (100, 100, astroidMed);
+  Astroid4 = new Asteroids (100, 100, astroidMed);
+  Astroid5 = new Asteroids (150, 120, astroidBig);
 
   function Bullets (positionX, positionY, angle){
     this.x = positionX;
@@ -96,27 +101,47 @@
     this.angle = angle;
     this.dv = 10;
     this.val = false;
-    this.timer = 0;
+    this.inity = 0;
+    this.initx = 0;
     this.fire = function (x, y, dir, val) {
       this.x = x;
       this.y = y;
+      this.initx = x;
+      this.inity = y;
       this.angle = dir;
       this.val = true;
     };
     this.draw = function (){
+      this.wall();
       this.x += this.dv * Math.sin(this.angle);
       this.y -= this.dv * Math.cos(this.angle);
+      var dx = Math.pow(this.initx - this.x, 2)
+      var dy = Math.pow(this.inity - this.y, 2 )
+      if( Math.sqrt( dx + dy ) > 300 ){
+        this.val = false;
+        this.y = 0;
+        this.x = 0;
+      }
       ctx.drawImage(bullet1, this.x - 25 , this.y - 10)
+    },
+    this.wall = function () {
+      if(this.x > canvas.width){this.x = 0};
+      if(this.x < 0){this.x = canvas.width};
+      if(this.y > canvas.height){this.y = 0};
+      if(this.y < 0){this.y = canvas.height};
     }
   };
-  var Bullet = new Bullets (0, 0, Ship.rad);
-  //var Bullet1 = new Bullets (0, 0, Ship.rad);
+  var bullets =[bul1 = new Bullets (0, 0, Ship.rad), bul2 = new Bullets (0, 0, Ship.rad), bul3 = new Bullets (0, 0, Ship.rad)];
 
   var keysDown = {};
   addEventListener("keydown", function (e) {
     if( e.which === 32){
-      Bullet.fire(Ship.x, Ship.y, Ship.rad, true);
-    };
+        bullets[count].fire(Ship.x, Ship.y, Ship.rad, true);
+        count++;
+        if(count > 2){
+          count = 0;
+        }
+      }
   	keysDown[e.keyCode] = true;
   }, false);
 
@@ -145,20 +170,24 @@
 
     function gameLogic() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if( Bullet.val ){
-        Bullet.draw()
+      if( bullets[0].val ){
+          bullets[0].draw()
+      }if( bullets[1].val ){
+          bullets[1].draw()
+      }if( bullets[2].val ){
+          bullets[2].draw()
       }
       if(Astroid1.val){
         Astroid1.draw();
       }if(Astroid2.val){
         Astroid2.draw();
-      // }if(Astroid4.val){
-      //   Astroid4.draw();
-      // }if(Astroid5.val){
-      //   Astroid5.draw();
-      // }
-      // if(Astroid3.val){
-      //   Astroid3.draw();
+      }if(Astroid4.val){
+        Astroid4.draw();
+      }if(Astroid5.val){
+        Astroid5.draw();
+      }
+      if(Astroid3.val){
+        Astroid3.draw();
       }if(Ship.val){
         Ship.draw();
       }
@@ -166,8 +195,8 @@
     }
     Astroid1.start();
     Astroid2.start();
-    // Astroid3.start();
-    // Astroid4.start();
-    // Astroid5.start();
+    Astroid3.start();
+    Astroid4.start();
+    Astroid5.start();
     gameLogic();
     //window.requestAnimationFrame(gameLogic);
