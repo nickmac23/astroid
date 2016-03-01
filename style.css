@@ -7,6 +7,6 @@ html, body {
 }
 
 canvas{
-  background-color: yellow;
+  /*background-color: yellow;*/
   opacity: 20%;
 }
