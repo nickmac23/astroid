@@ -1,0 +1,22 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /usr/local/Cellar/node/5.5.0/bin/node /usr/local/bin/firebase init
+[debug] Platform:     darwin
+[debug] Node Version: v5.5.0
+[debug] Time:         Wed Mar 02 2016 12:04:44 GMT-0700 (MST)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[warn] ⚠  Initializing in a directory with 8 files
+[warn] 
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/account?token=XXX 
+[debug] <<< HTTP RESPONSE 200
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /usr/local/Cellar/node/5.5.0/bin/node /usr/local/bin/firebase init
+[debug] Platform:     darwin
+[debug] Node Version: v5.5.0
+[debug] Time:         Wed Mar 02 2016 12:05:39 GMT-0700 (MST)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[warn] ⚠  Initializing in a directory with 8 files
+[warn] 
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/account?token=XXX 
+[debug] <<< HTTP RESPONSE 200
