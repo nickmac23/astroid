@@ -70,96 +70,7 @@ function game (shipPic) {
   var count = 0;
 
 
-
-  function Ships (pic) {
-    this.x = canvas.width/2,
-    this.y = canvas.height/2,
-    this.vy = 0.5,
-    this.vx = 0,
-    this.thrust = 0.1,
-    this.rad = 0,
-    this.val = true,
-    this.img = pic;
-    this.wall = function () {
-      if(this.x > canvas.width){this.x = 0};
-      if(this.x < 0){this.x = canvas.width};
-      if(this.y > canvas.height){this.y = 0};
-      if(this.y < 0){this.y = canvas.height};
-
-    },
-    this.draw = function () {
-      move();
-      this.wall();
-      this.x += this.vx;
-      this.y -= this.vy;
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.rad);
-      ctx.drawImage(this.img, -(ship1.width/2), -(ship1.height/2));
-      ctx.restore();
-    }
-  }
-  var Ship = new Ships (ship1);
-
-  function Asteroids (width, height, size, pic){
-    this.x = 0;
-    this.y = 0;
-    this.vx = 0;
-    this.vy = 0;
-    this.size= size;
-    this.img= pic;
-    this.val = true;
-    this.width = width;
-    this.height = height;
-    this.start = function (px, py) {
-      this.vx = Math.random() * (3 + 3) - 3;
-      this.vy = Math.random() * (3 + 3) - 3;
-      if(px){
-        this.x = px;
-        this.y = py;
-      }else{
-        var top = (Math.random() * (canvas.height - 0));
-        var bot = (Math.random() * (canvas.width - 0));
-        this.x = 200 * ( 1 - ( top/bot) );
-        this.y = 200 * ( 1 - ( bot/top ) );
-      }
-    };
-    this.draw = function () {
-      this.x += this.vx;
-      this.y += this.vy;
-      this.bounce();
-      this.wall();
-      ctx.drawImage(this.img, this.x , this.y )
-    }
-    this.bounce = function () {
-      if (this.x <= Ship.x  &&
-       this.x + this.width  > Ship.x &&
-       this.y < Ship.y  &&
-       this.height + this.y > Ship.y) {
-         Ship.val = false;
-      }for (var i = 0; i < bullets.length; i++) {
-        if (this.x < bullets[i].x  &&
-          this.x + this.width  > bullets[i].x &&
-         this.y < bullets[i].y  &&
-         this.height - 30 + this.y > bullets[i].y && bullets[i].val === true) {
-           update('A');
-           update('s');
-           bullets[i].val = false;
-           this.img = explode;
-           this.val = false;
-           if( this.size === 'big'){
-             breaker (this.x, this.y);
-           }
-        }
-      }
-    },
-    this.wall = function () {
-      if(this.x > canvas.width){this.x = 0 - this.width/2};
-      if(this.x + this.width < 0){this.x = canvas.width};
-      if(this.y > canvas.height){this.y = 0 - this.height/2};
-      if(this.y + this.height < 0){this.y = canvas.height};
-    }
-  }
+  var ship = new Ships (ship1, move);
 
   var collection = [];
   var breakArray = [];
@@ -167,8 +78,8 @@ function game (shipPic) {
   var big = 1;
   function reset () {
     collection = [];
-    for (var x = 0; x < small; x++ ) { collection.push(new Asteroids (100, 100, 'small', astroidMed)) };
-    for (var x = 0; x < big; x++) { collection.push(new Asteroids (150, 120, 'big', astroidBig)) };
+    for (var x = 0; x < small; x++ ) { collection.push(new Asteroids (100, 100, 'small', astroidMed, ship, bullets, update, breaker)) };
+    for (var x = 0; x < big; x++) { collection.push(new Asteroids (150, 120, 'big', astroidBig, ship, bullets, update, breaker)) };
     for (var i = 0; i < collection.length; i++) {
       collection[i].start();
     }
@@ -177,7 +88,7 @@ function game (shipPic) {
   }
   function breaker (x, y) {
     for (var i = 0; i < 2; i++) {
-      collection.push(new Asteroids (100, 100, 'small', astroidMed));
+      collection.push(new Asteroids (100, 100, 'small', astroidMed, ship, bullets, update, breaker));
       collection[ collection.length - 1].start(x, y)
     }
   }
@@ -219,12 +130,12 @@ function game (shipPic) {
       if(this.y < 0){this.y = canvas.height};
     }
   };
-  var bullets =[bul1 = new Bullets (0, 0, Ship.rad), bul2 = new Bullets (0, 0, Ship.rad), bul3 = new Bullets (0, 0, Ship.rad)];
+  var bullets =[bul1 = new Bullets (0, 0, ship.rad), bul2 = new Bullets (0, 0, ship.rad), bul3 = new Bullets (0, 0, ship.rad)];
 
   var keysDown = {};
   addEventListener("keydown", function (e) {
-    if( e.which === 32 && Ship.val === true){
-        bullets[count].fire(Ship.x, Ship.y, Ship.rad, true);
+    if( e.which === 32 && ship.val === true){
+        bullets[count].fire(ship.x, ship.y, ship.rad, true);
         count++;
         if(count > 2){
           count = 0;
@@ -244,13 +155,13 @@ function game (shipPic) {
     if(degree === 360 || degree === -360){
       degree = 0;
     }
-    Ship.rad = (Math.PI/180)*degree;
+    ship.rad = (Math.PI/180)*degree;
     if(38 in keysDown){
-      Ship.vx += Ship.thrust * Math.sin(Ship.rad);
-      Ship.vy += Ship.thrust * Math.cos(Ship.rad);
+      ship.vx += ship.thrust * Math.sin(ship.rad);
+      ship.vy += ship.thrust * Math.cos(ship.rad);
     }if(40 in keysDown){
-      Ship.vx -= Ship.thrust * Math.sin(Ship.rad);
-      Ship.vy -= Ship.thrust * Math.cos(Ship.rad);
+      ship.vx -= ship.thrust * Math.sin(ship.rad);
+      ship.vy -= ship.thrust * Math.cos(ship.rad);
     }
   }
 
@@ -273,8 +184,8 @@ function game (shipPic) {
         update('L');
         update('S')
         reset();
-      }if(Ship.val){
-        Ship.draw();
+      }if(ship.val){
+        ship.draw();
       }
       window.requestAnimationFrame(gameLogic);
     }
