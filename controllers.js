@@ -40,7 +40,7 @@ app.controller('SpaceController', function($scope, $firebaseArray){
    var astroidMed = new Image();
      astroidMed.src = 'pic/Astromedium.png'
    var astroidBig = new Image();
-     astroidBig.src = 'pic/asteroid.png'
+     astroidBig.src = 'pic/Asteroid.png'
 
    function Ships (pic) {
      this.x = canvas.width/2,
