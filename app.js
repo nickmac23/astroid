@@ -2,12 +2,27 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 ctx.canvas.width = window.innerWidth * 0.7;
 ctx.canvas.height = window.innerHeight * 0.87;
-var game = false;
+var level = 0;
+var score = 0;
+var astroidTD = localStorage.getItem('stroidTD') >= 0 ? +localStorage.getItem('stroidTD') : 0;
 
 $(document).ready(function(){
+  var nameS = localStorage.getItem('captain') ? localStorage.getItem('captain') : '';
   var picArray = ['pic/ships/blueships1.png', 'pic/ships/flacon.png', 'pic/ships/mship1.png', 'pic/ships/topdownfighter.png']
   var picCount = 0;
+
+  if( nameS === ''){
+    $('#bName').on('click', function () {
+      var nameS = $('#name').val();
+      localStorage.setItem('captain', nameS );
+      $('header').html('<h1> Welcome aboard ' + nameS + '! </h1><h5> Our warpdrive has malfunctioned and dropped us into an astroid feild! <br> Your mission is to clear all the astroids! Launch your ship as soon as you are ready. </h5>'  )
+
+    })
+  }else{
+    $('header').html('<h1> Welcome back Captain ' + nameS +'! Your ship is ready:')
+  }
   $('#shipPic').attr('src', picArray[picCount]);
+
   $('.arrow').on('click', function () {
     if($(this).attr('id')=== 'right'){
       picCount++;
@@ -22,9 +37,24 @@ $(document).ready(function(){
       }
       $('#shipPic').attr('src', picArray[picCount]);
     }if($(this).attr('id') === 'launch'){
+      update('R')
       game(picArray[picCount]);
+      $('header').html('<h1> Warning... Astroids Approching! </h1>');
+      $('header').css('background-color', 'rgb(219, 230, 14)');
     }
+
   })
+  function update (x){
+    if(x === 'R'){ level = 0; score = 0;}
+    if(x === 'L'){level++};
+    if(x === 'S'){score += 100};
+    if(x === 's')(score += 10);
+    if( x === 'A'){
+      astroidTD++;
+      localStorage.setItem('stroidTD', astroidTD);
+    }
+    $('#scoreBoard').html('<h2> Lvl: ' + level + '</h2> <p> current score: ' + score + '</p> <h3> Astroids destroyed: ' + astroidTD + '</h3>')
+  }
 
 function game (shipPic) {
   var ship1 = new Image();
@@ -112,6 +142,8 @@ function game (shipPic) {
           this.x + this.width  > bullets[i].x &&
          this.y < bullets[i].y  &&
          this.height - 30 + this.y > bullets[i].y && bullets[i].val === true) {
+           update('A');
+           update('s');
            bullets[i].val = false;
            this.img = explode;
            this.val = false;
@@ -131,7 +163,7 @@ function game (shipPic) {
 
   var collection = [];
   var breakArray = [];
-  var small = 1;
+  var small = 2;
   var big = 1;
   function reset () {
     collection = [];
@@ -146,7 +178,6 @@ function game (shipPic) {
   function breaker (x, y) {
     for (var i = 0; i < 2; i++) {
       collection.push(new Asteroids (100, 100, 'small', astroidMed));
-      console.log(collection.length - 1);
       collection[ collection.length - 1].start(x, y)
     }
   }
@@ -192,7 +223,7 @@ function game (shipPic) {
 
   var keysDown = {};
   addEventListener("keydown", function (e) {
-    if( e.which === 32){
+    if( e.which === 32 && Ship.val === true){
         bullets[count].fire(Ship.x, Ship.y, Ship.rad, true);
         count++;
         if(count > 2){
@@ -239,6 +270,8 @@ function game (shipPic) {
         }
 
       }if(chck === 0){
+        update('L');
+        update('S')
         reset();
       }if(Ship.val){
         Ship.draw();
