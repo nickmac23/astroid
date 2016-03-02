@@ -64,7 +64,7 @@ function game (shipPic) {
   var astroidMed = new Image();
     astroidMed.src = 'pic/Astromedium.png'
   var astroidBig = new Image();
-    astroidBig.src = 'pic/asteroid.png'
+    astroidBig.src = 'pic/Asteroid.png'
   var explode = new Image();
     explode.src = 'pic/boom.png'
   var count = 0;
