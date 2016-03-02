@@ -154,9 +154,9 @@ function game (shipPic) {
       }
     },
     this.wall = function () {
-      if(this.x > canvas.width){this.x = 0};
+      if(this.x > canvas.width){this.x = 0 - this.width/2};
       if(this.x + this.width < 0){this.x = canvas.width};
-      if(this.y > canvas.height){this.y = 0};
+      if(this.y > canvas.height){this.y = 0 - this.height/2};
       if(this.y + this.height < 0){this.y = canvas.height};
     }
   }
