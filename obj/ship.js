@@ -1,3 +1,6 @@
+var bullet1 = new Image();
+  bullet1.src = 'pic/Bluecenter.png';
+
 function Ships (pic, move) {
   this.x = canvas.width/2,
   this.y = canvas.height/2,
@@ -26,3 +29,40 @@ function Ships (pic, move) {
     ctx.restore();
   }
 }
+
+function Bullets (positionX, positionY, angle){
+  this.x = positionX;
+  this.y = positionY;
+  this.angle = angle;
+  this.dv = 10;
+  this.val = false;
+  this.inity = 0;
+  this.initx = 0;
+  this.fire = function (x, y, dir, val) {
+    this.x = x;
+    this.y = y;
+    this.initx = x;
+    this.inity = y;
+    this.angle = dir;
+    this.val = true;
+  };
+  this.draw = function (){
+    this.wall();
+    this.x += this.dv * Math.sin(this.angle);
+    this.y -= this.dv * Math.cos(this.angle);
+    var dx = Math.pow(this.initx - this.x, 2)
+    var dy = Math.pow(this.inity - this.y, 2 )
+    if( Math.sqrt( dx + dy ) > 300 ){
+      this.val = false;
+      this.y = 0;
+      this.x = 0;
+    }
+    ctx.drawImage(bullet1, this.x - 25 , this.y - 10)
+  },
+  this.wall = function () {
+    if(this.x > canvas.width){this.x = 0};
+    if(this.x < 0){this.x = canvas.width};
+    if(this.y > canvas.height){this.y = 0};
+    if(this.y < 0){this.y = canvas.height};
+  }
+};

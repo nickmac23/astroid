@@ -2,11 +2,15 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 ctx.canvas.width = window.innerWidth * 0.7;
 ctx.canvas.height = window.innerHeight * 0.87;
-var level = 0;
-var score = 0;
-var astroidTD = localStorage.getItem('stroidTD') >= 0 ? +localStorage.getItem('stroidTD') : 0;
 
 $(document).ready(function(){
+
+
+  var smallAstroid = 2;
+  var bigAstroid = 1;
+  var level = 0;
+  var score = 0;
+  var astroidTD = localStorage.getItem('stroidTD') >= 0 ? +localStorage.getItem('stroidTD') : 0;
   var nameS = localStorage.getItem('captain') ? localStorage.getItem('captain') : '';
   var picArray = ['pic/ships/blueships1.png', 'pic/ships/flacon.png', 'pic/ships/mship1.png', 'pic/ships/topdownfighter.png']
   var picCount = 0;
@@ -37,13 +41,16 @@ $(document).ready(function(){
       }
       $('#shipPic').attr('src', picArray[picCount]);
     }if($(this).attr('id') === 'launch'){
+      smallAstroid = 2;
+      bigAstroid = 1;
       update('R')
       game(picArray[picCount]);
-      $('header').html('<h1> Warning... Astroids Approching! </h1>');
+      $('header').html('<h1> Warning... Asteroids Approching! </h1>');
       $('header').css('background-color', 'rgb(219, 230, 14)');
     }
 
   })
+
   function update (x){
     if(x === 'R'){ level = 0; score = 0;}
     if(x === 'L'){level++};
@@ -53,14 +60,12 @@ $(document).ready(function(){
       astroidTD++;
       localStorage.setItem('stroidTD', astroidTD);
     }
-    $('#scoreBoard').html('<h2> Lvl: ' + level + '</h2> <p> current score: ' + score + '</p> <h3> Astroids destroyed: ' + astroidTD + '</h3>')
+    $('#scoreBoard').html('<h2> Lvl: ' + level + '</h2> <p> current score: ' + score + '</p> <h3> Asteroids destroyed: ' + astroidTD + '</h3>')
   }
 
 function game (shipPic) {
   var ship1 = new Image();
     ship1.src = shipPic;
-  var bullet1 = new Image();
-    bullet1.src = 'pic/Bluecenter.png';
   var astroidMed = new Image();
     astroidMed.src = 'pic/Astromedium.png'
   var astroidBig = new Image();
@@ -69,22 +74,19 @@ function game (shipPic) {
     explode.src = 'pic/boom.png'
   var count = 0;
 
-
   var ship = new Ships (ship1, move);
 
   var collection = [];
   var breakArray = [];
-  var small = 2;
-  var big = 1;
   function reset () {
     collection = [];
-    for (var x = 0; x < small; x++ ) { collection.push(new Asteroids (100, 100, 'small', astroidMed, ship, bullets, update, breaker)) };
-    for (var x = 0; x < big; x++) { collection.push(new Asteroids (150, 120, 'big', astroidBig, ship, bullets, update, breaker)) };
+    for (var x = 0; x < smallAstroid; x++ ) { collection.push(new Asteroids (100, 100, 'small', astroidMed, ship, bullets, update, breaker)) };
+    for (var x = 0; x < bigAstroid; x++) { collection.push(new Asteroids (150, 120, 'big', astroidBig, ship, bullets, update, breaker)) };
     for (var i = 0; i < collection.length; i++) {
       collection[i].start();
     }
-    small++;
-    big++;
+    smallAstroid++;
+    bigAstroid++;
   }
   function breaker (x, y) {
     for (var i = 0; i < 2; i++) {
@@ -93,43 +95,6 @@ function game (shipPic) {
     }
   }
 
-
-  function Bullets (positionX, positionY, angle){
-    this.x = positionX;
-    this.y = positionY;
-    this.angle = angle;
-    this.dv = 10;
-    this.val = false;
-    this.inity = 0;
-    this.initx = 0;
-    this.fire = function (x, y, dir, val) {
-      this.x = x;
-      this.y = y;
-      this.initx = x;
-      this.inity = y;
-      this.angle = dir;
-      this.val = true;
-    };
-    this.draw = function (){
-      this.wall();
-      this.x += this.dv * Math.sin(this.angle);
-      this.y -= this.dv * Math.cos(this.angle);
-      var dx = Math.pow(this.initx - this.x, 2)
-      var dy = Math.pow(this.inity - this.y, 2 )
-      if( Math.sqrt( dx + dy ) > 300 ){
-        this.val = false;
-        this.y = 0;
-        this.x = 0;
-      }
-      ctx.drawImage(bullet1, this.x - 25 , this.y - 10)
-    },
-    this.wall = function () {
-      if(this.x > canvas.width){this.x = 0};
-      if(this.x < 0){this.x = canvas.width};
-      if(this.y > canvas.height){this.y = 0};
-      if(this.y < 0){this.y = canvas.height};
-    }
-  };
   var bullets =[bul1 = new Bullets (0, 0, ship.rad), bul2 = new Bullets (0, 0, ship.rad), bul3 = new Bullets (0, 0, ship.rad)];
 
   var keysDown = {};
@@ -179,7 +144,6 @@ function game (shipPic) {
           chck++;
           collection[i].draw();
         }
-
       }if(chck === 0){
         update('L');
         update('S')
@@ -189,7 +153,6 @@ function game (shipPic) {
       }
       window.requestAnimationFrame(gameLogic);
     }
-
 
     reset();
     gameLogic();
