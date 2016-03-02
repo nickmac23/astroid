@@ -1,10 +1,34 @@
-  var canvas = document.getElementById("canvas");
-  var ctx = canvas.getContext("2d");
-  ctx.canvas.width = window.innerWidth * 0.8;
-  ctx.canvas.height = window.innerHeight * 0.8;
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.canvas.width = window.innerWidth * 0.7;
+ctx.canvas.height = window.innerHeight * 0.87;
+var game = false;
 
+$(document).ready(function(){
+  var picArray = ['pic/ships/blueships1.png', 'pic/ships/flacon.png', 'pic/ships/mship1.png', 'pic/ships/topdownfighter.png']
+  var picCount = 0;
+  $('#shipPic').attr('src', picArray[picCount]);
+  $('.arrow').on('click', function () {
+    if($(this).attr('id')=== 'right'){
+      picCount++;
+      if( picCount > picArray.length - 1 ){
+        picCount = 0;
+      }
+      $('#shipPic').attr('src', picArray[picCount]);
+    }if($(this).attr('id') === 'left'){
+      picCount--;
+      if( picCount < 0){
+        picCount = picArray.length -1 ;
+      }
+      $('#shipPic').attr('src', picArray[picCount]);
+    }if($(this).attr('id') === 'launch'){
+      game(picArray[picCount]);
+    }
+  })
+
+function game (shipPic) {
   var ship1 = new Image();
-    ship1.src = 'pic/mship1.png';
+    ship1.src = shipPic;
   var bullet1 = new Image();
     bullet1.src = 'pic/Bluecenter.png';
   var astroidMed = new Image();
@@ -107,7 +131,7 @@
 
   var collection = [];
   var breakArray = [];
-  var small = 2;
+  var small = 1;
   var big = 1;
   function reset () {
     collection = [];
@@ -225,3 +249,5 @@
 
     reset();
     gameLogic();
+}
+});
