@@ -55,7 +55,6 @@ $(document).ready(function(){
   })
 
   function update (x, dead){
-    console.log(nameS);
     if(x === 'R'){ level = 0; score = 0;}
     if(x === 'L'){level++};
     if(x === 'S'){score += 100};
