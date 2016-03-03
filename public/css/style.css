@@ -13,7 +13,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 header {
@@ -84,12 +83,17 @@ nav{
   border-radius: 10%;
   flex-direction: column;
 }
-#scoreBoard{
+
+#scoreBoard, #ladderBoard{
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
+#ladderBoard p{
+  margin: 5px;
+}
+
 img{
   height: 90%;
 }

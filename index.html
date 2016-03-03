@@ -4,21 +4,10 @@
   <meta charset="UTF-8">
   <title>Astroid</title>
   <link rel="stylesheet" href="./public/css/style.css" media="screen" title="no title" charset="utf-8">
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
-  <script src="https://cdn.firebase.com/js/client/2.2.5/firebase.js"></script>
-  <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script> -->
-  <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js'></script>
+  <script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 </head>
 <body ng-controller="SpaceController">
-<!-- <form name='form' novalidate>
-<input type="text" ng-model="text" required>
-<button ng-disabled="form.$invalid" ng-click="addShip(text)">Add ship</button>
-</form>
-<div ng-repeat="s in ships">
-  <p>{{s.shipName}}</p>
-</div> -->
-
     <header>
       <h1> Welcome new recruit! Please sign in:</h1>
       <input type="text" id="name" value="">
@@ -35,6 +24,13 @@
         </aside>
       </nav>
       <nav id='scoreBoard'></nav>
+      <nav id='ladderBoard' class="example-base example-leaderboard l-demo-container">
+        <p class='lBoard' id='1' value='0'></p>
+        <p class='lBoard' id='2' value='0'></p>
+        <p class='lBoard' id='3' value='0'></p>
+        <p class='lBoard' id='4' value='0'></p>
+        <p class='lBoard' id='5' value='0'></p>
+      </nav>
     </section>
     <canvas id="canvas"></canvas>
   </main>
@@ -42,10 +38,7 @@
   <script type="text/javascript" src="obj/ship.js"></script>
   <script type="text/javascript" src="obj/astroid.js"></script>
   <script type="text/javascript" src="app.js"></script>
-
-  <script type="text/javascript" src="jjjq.js"></script>
-  <!-- <script src="module.js"></script>
-  <script src="controllers.js"></script> -->
+  <!-- <script type="text/javascript" src="obj/ladder.js"></script> -->
 
 </body>
 </html>

@@ -2,20 +2,21 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 ctx.canvas.width = window.innerWidth * 0.7;
 ctx.canvas.height = window.innerHeight * 0.87;
+var highScore = localStorage.getItem('score') >= 0 ? +localStorage.getItem('score') : 0;
+var nameS = localStorage.getItem('captain') ? localStorage.getItem('captain') : 'recruit';
 
 $(document).ready(function(){
 
-
+  var scoreListRef = new Firebase('https://astroidz.firebaseio.com/');
   var smallAstroid = 2;
   var bigAstroid = 1;
   var level = 0;
   var score = 0;
   var astroidTD = localStorage.getItem('stroidTD') >= 0 ? +localStorage.getItem('stroidTD') : 0;
-  var nameS = localStorage.getItem('captain') ? localStorage.getItem('captain') : '';
   var picArray = ['pic/ships/blueships1.png', 'pic/ships/flacon.png', 'pic/ships/mship1.png', 'pic/ships/topdownfighter.png']
   var picCount = 0;
 
-  if( nameS === ''){
+  if( nameS === 'recruit'){
     $('#bName').on('click', function () {
       var nameS = $('#name').val();
       localStorage.setItem('captain', nameS );
@@ -43,24 +44,34 @@ $(document).ready(function(){
     }if($(this).attr('id') === 'launch'){
       smallAstroid = 2;
       bigAstroid = 1;
-      update('R')
+      update('R', ship.val)
       game(picArray[picCount]);
       $('header').html('<h1> Warning... Asteroids Approching! </h1>');
       $('header').css('background-color', 'rgb(219, 230, 14)');
+      $('.lBoard').attr('value', 0);
+
     }
 
   })
 
-  function update (x){
+  function update (x, dead){
     if(x === 'R'){ level = 0; score = 0;}
     if(x === 'L'){level++};
     if(x === 'S'){score += 100};
     if(x === 's')(score += 10);
+    if(dead && localStorage.getItem('score') < score){
+      localStorage.setItem('score', score);
+      highScore = localStorage.getItem('score');
+      fireName = localStorage.getItem('captain');
+      var userScoreRef = scoreListRef.child(fireName);
+      userScoreRef.setWithPriority({name:fireName, score:highScore}, -1  * highScore);
+
+    }
     if( x === 'A'){
       astroidTD++;
       localStorage.setItem('stroidTD', astroidTD);
     }
-    $('#scoreBoard').html('<h2> Lvl: ' + level + '</h2> <p> current score: ' + score + '</p> <h3> Asteroids destroyed: ' + astroidTD + '</h3>')
+    $('#scoreBoard').html('<h2> Lvl: ' + level + '</h2> <p> High score: ' + highScore+ '</p><p> current score: '+ score  + ' <h3> Asteroids destroyed: ' + astroidTD + '</h3>')
   }
 
 function game (shipPic) {
@@ -70,9 +81,6 @@ function game (shipPic) {
     astroidMed.src = 'pic/Astromedium.png'
   var astroidBig = new Image();
     astroidBig.src = 'pic/Asteroid.png'
-  var explode = new Image();
-    explode.src = 'pic/boom.png'
-  var count = 0;
 
   var ship = new Ships (ship1, move);
 
@@ -94,8 +102,8 @@ function game (shipPic) {
       collection[ collection.length - 1].start(x, y)
     }
   }
-
   var bullets =[bul1 = new Bullets (0, 0, ship.rad), bul2 = new Bullets (0, 0, ship.rad), bul3 = new Bullets (0, 0, ship.rad)];
+  var count = 0;
 
   var keysDown = {};
   addEventListener("keydown", function (e) {
@@ -145,8 +153,8 @@ function game (shipPic) {
           collection[i].draw();
         }
       }if(chck === 0){
-        update('L');
-        update('S')
+        update('L', ship.val);
+        update('S', ship.val)
         reset();
       }if(ship.val){
         ship.draw();
@@ -156,5 +164,42 @@ function game (shipPic) {
 
     reset();
     gameLogic();
+    var saveString = [];
+    scoreListRef.on("child_added", function(snapshot) {
+      var scores = snapshot.val();
+      ladderBoard (scores.name, scores.score);
+
+    })
+    var i = 0;
+    function ladderBoard (nm, sc){
+      if(+sc > $('#1').attr('value')){
+        $('#1').text('1st place: '+ nm + '-' + sc + 'pts');
+        $('#1').attr('value', sc);
+        return
+
+      }if(+sc > $('#2').attr('value')){
+        $('#2').text('2nd place: '+ nm + '-' + sc + 'pts');
+        $('#2').attr('value', sc);
+        return
+
+      }if(+sc > $('#3').attr('value')){
+        $('#3').text('3rd place: '+ nm + '-' + sc + 'pts');
+        $('#3').attr('value', sc);
+        return
+
+      }if(+sc > $('#4').attr('value')){
+        $('#4').text('4th place: '+ nm + '-' + sc + 'pts');
+        $('#4').attr('value', sc);
+        return
+
+      }if(+sc > $('#5').attr('value')){
+        $('#5').text('5th place: '+ nm + '-' + sc + 'pts');
+        $('#5').attr('value', sc);
+        return
+      }
+
+
+      i++;
+    }
 }
 });

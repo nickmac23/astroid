@@ -39,8 +39,8 @@ function Asteroids (width, height, size, pic, ship, bullets, update, breaker){
         this.x + this.width  > bullets[i].x &&
        this.y < bullets[i].y  &&
        this.height - 30 + this.y > bullets[i].y && bullets[i].val === true) {
-         update('A');
-         update('s');
+         update('A', ship.val);
+         update('s', ship.val);
          bullets[i].val = false;
          this.val = false;
          if( this.size === 'big'){
