@@ -55,6 +55,7 @@ $(document).ready(function(){
   })
 
   function update (x, dead){
+    console.log(nameS);
     if(x === 'R'){ level = 0; score = 0;}
     if(x === 'L'){level++};
     if(x === 'S'){score += 100};
@@ -62,7 +63,7 @@ $(document).ready(function(){
     if(dead && localStorage.getItem('score') < score){
       localStorage.setItem('score', score);
       highScore = localStorage.getItem('score');
-      fireName = localStorage.getItem('captain');
+      fireName = localStorage.getItem('captain') === null ? 'recruit' : localStorage.getItem('captain');
       var userScoreRef = scoreListRef.child(fireName);
       userScoreRef.setWithPriority({name:fireName, score:highScore}, -1  * highScore);
 
