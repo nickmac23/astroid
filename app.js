@@ -171,7 +171,7 @@ function game (shipPic) {
       ladderBoard (scores.name, scores.score);
 
     })
-    var i = 0;
+
     function ladderBoard (nm, sc){
       if(+sc > $('#1').attr('value')){
         $('#1').text('1st place: '+ nm + '-' + sc + 'pts');
@@ -199,8 +199,6 @@ function game (shipPic) {
         return
       }
 
-
-      i++;
     }
 }
 });

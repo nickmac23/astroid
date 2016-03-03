@@ -9,16 +9,18 @@ function Asteroids (width, height, size, pic, ship, bullets, update, breaker){
   this.width = width;
   this.height = height;
   this.start = function (px, py) {
-    this.vx = Math.random() * (3 + 3) - 3;
-    this.vy = Math.random() * (3 + 3) - 3;
+    var rx = Math.random() * (3 + 3) - 3;
+    var ry = Math.random() * (3 + 3) - 3;
+    this.vy = rx != 0 ? rx : 1;
+    this.vx = ry != 0 ? ry : -1;
     if(px){
       this.x = px;
       this.y = py;
     }else{
       var top = (Math.random() * (canvas.height - 0));
       var bot = (Math.random() * (canvas.width - 0));
-      this.x = 200 * ( 1 - ( top/bot) );
-      this.y = 200 * ( 1 - ( bot/top ) );
+      this.x = 200 * ( 1 - ( top/bot) ) + 50;
+      this.y = 200 * ( 1 - ( bot/top )) + 50;
     }
   };
   this.draw = function () {
