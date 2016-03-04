@@ -2,37 +2,35 @@
 <html lang="en" ng-app="spaceApp">
 <head>
   <meta charset="UTF-8">
-  <title>Astroid</title>
+  <title>Asteroid</title>
   <script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
    <link rel="stylesheet" href="./public/css/style.css" media="screen" title="no title" charset="utf-8">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Amatic+SC">
 </head>
-<body ng-controller="SpaceController">
+<body>
     <main>
       <header>
         <h1> Asteroid Field!</h1>
       </header>
-
       <section>
-      <nav id='scoreBoard'></nav>
-      <nav id='ship'>
-        <img id='shipPic' src="" alt="">
-        <aside>
-          <div class='arrow' id='left'> < </div>
-          <input class='arrow'  type='button'  id='launch' value="Launch ship">
-          <div class='arrow' id='right'> > </div>
-        </aside>
-      </nav>
-      <nav id='ladderBoard'>
-        <p class='lBoard' id='1' value='0'></p>
-        <p class='lBoard' id='2' value='0'></p>
-        <p class='lBoard' id='3' value='0'></p>
-        <p class='lBoard' id='4' value='0'></p>
-        <p class='lBoard' id='5' value='0'></p>
-      </nav>
-    </section>
-
+        <nav id='scoreBoard'></nav>
+        <nav id='ship'>
+          <img id='shipPic' src="" alt="">
+          <aside>
+            <div class='arrow' id='left'> < </div>
+            <input class='arrow'  type='button'  id='launch' value="Launch ship">
+            <div class='arrow' id='right'> > </div>
+          </aside>
+        </nav>
+        <nav id='ladderBoard'>
+          <p class='lBoard' id='1' value='0'></p>
+          <p class='lBoard' id='2' value='0'></p>
+          <p class='lBoard' id='3' value='0'></p>
+          <p class='lBoard' id='4' value='0'></p>
+          <p class='lBoard' id='5' value='0'></p>
+        </nav>
+      </section>
       <footer>
         <h1> Please Sign in: </h1>
         <input type="text" id="name" value="">
@@ -44,7 +42,5 @@
   <script type="text/javascript" src="obj/ship.js"></script>
   <script type="text/javascript" src="obj/astroid.js"></script>
   <script type="text/javascript" src="app.js"></script>
-  <!-- <script type="text/javascript" src="obj/ladder.js"></script> -->
-
 </body>
 </html>

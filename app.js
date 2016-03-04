@@ -20,7 +20,7 @@ $(document).ready(function(){
     $('#bName').on('click', function () {
       var nameS = $('#name').val();
       localStorage.setItem('captain', nameS );
-      $('footer').html('<h2> Welcome ' + nameS + '! Click on the arrow keys to scroll through ship. Press the launch button when you are ready to play. </h2>'  )
+      $('footer').html('<h2> Welcome ' + nameS + '! Click on the arrow keys to scroll through the ships. Press the launch button when you are ready to play.  Use arrow keys to move and space bar to shoot.</h2>'  )
 
     })
   }else{
@@ -57,7 +57,7 @@ $(document).ready(function(){
       $('footer').hide('slow');
       $('#ship').hide('slow');
       $('#ladderBoard').hide('slow');
-      $('#scoreBoard').css('position', 'fixed').css('background-color', 'transparent').css('color', 'white').css('border', 'none').css('top', '10px').css('left', '10px');
+      $('#scoreBoard').css('position', 'fixed').css('background-color', 'transparent').css('color', 'white').css('border', 'none').css('top', '2px').css('left', '2px');
       $('canvas').show();
     }else{
       $('canvas').hide();
@@ -87,7 +87,7 @@ $(document).ready(function(){
       astroidTD++;
       localStorage.setItem('stroidTD', astroidTD);
     }
-    $('#scoreBoard').html('<h2> Lvl: ' + level + '</h2> <p> High score: ' + highScore+ '</p><p> current score: '+ score  + ' <h3> Asteroids destroyed: ' + astroidTD + '</h3>')
+    $('#scoreBoard').html('<p> Lvl: ' + level + '<br> High score: ' + highScore+ '<br> current score: '+ score  + ' <br> Asteroids destroyed: ' + astroidTD + '</p>')
 
   }
 
@@ -156,8 +156,6 @@ function game (shipPic) {
       ship.vy -= ship.thrust * Math.cos(ship.rad);
     }
   }
-
-
 
     function gameLogic() {
       var chck = 0;

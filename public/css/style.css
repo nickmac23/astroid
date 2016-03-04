@@ -1,28 +1,22 @@
-html {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  }
-
-body {
+html, body  {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: Amatic SC;
+  font-weight: bold;
+  font-size: 25px;
+  }
+
+body {
   background-image: url('../../pic/ast.jpg');
   background-size: cover;
 }
 
 header {
-  height: 4%;
-  width: 100%;
   color: white;
-  font-family: Amatic SC;
   font-size: 100px;
   text-shadow: 5px 5px rgb(145, 145, 145);
   height: 30%;
@@ -31,19 +25,20 @@ header {
   align-items: center;
   justify-content: center;
    }
+
 #name{
-  height: 20px;
-  margin-left: 15px;
+  margin-left: 10px;
+
 }
 #bName{
-  margin-left: 0px;
-  height: 25px;
+
+  height: 20px;
   width: 35px;
   background-color: red;
   font-size: 9px;
   color: white;
-
 }
+
 #launch{
   border-radius: 10%;
   color: red;
@@ -70,9 +65,22 @@ nav{
   border: solid white 1px;
   height: 240px;
   width: 240px;
-  display: flex;
   border-radius: 10%;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#ladderBoard p{
+  margin: 5px;
+}
+#scoreBoard{
+  text-align: center;
+}
+#ship{
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
 }
 footer{
   height: 10%;
@@ -85,17 +93,11 @@ footer{
   margin-top: 15px;
   text-align: center;
   border: 1px solid white;
+  font-size: 20px;
+  padding: 10px;
 }
 
-#scoreBoard, #ladderBoard{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-#ladderBoard p{
-  margin: 5px;
-}
 
 img{
   height: 90%;
