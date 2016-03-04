@@ -52,7 +52,7 @@ function Bullets (positionX, positionY, angle){
     this.y -= this.dv * Math.cos(this.angle);
     var dx = Math.pow(this.initx - this.x, 2)
     var dy = Math.pow(this.inity - this.y, 2 )
-    if( Math.sqrt( dx + dy ) > 300 ){
+    if( Math.sqrt( dx + dy ) > 350 ){
       this.val = false;
       this.y = 0;
       this.x = 0;

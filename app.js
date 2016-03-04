@@ -100,6 +100,9 @@ function game (shipPic) {
     astroidMed.src = 'pic/Astromedium.png'
   var astroidBig = new Image();
     astroidBig.src = 'pic/Asteroid.png'
+  var astroidtinny = new Image();
+    astroidtinny.src = 'pic/tinnya.png'
+
 
   var ship = new Ships (ship1, move);
 
@@ -115,9 +118,11 @@ function game (shipPic) {
     smallAstroid++;
     bigAstroid++;
   }
-  function breaker (x, y) {
+  function breaker (x, y, size) {
+    var aSize = size === 'big' ? 'small' : 'tinny';
+    var aPic = size === 'big' ? astroidMed : astroidtinny;
     for (var i = 0; i < 2; i++) {
-      collection.push(new Asteroids (100, 100, 'small', astroidMed, ship, bullets, update, breaker));
+      collection.push(new Asteroids (100, 100, aSize, aPic, ship, bullets, update, breaker));
       collection[ collection.length - 1].start(x, y)
     }
   }

@@ -46,7 +46,10 @@ function Asteroids (width, height, size, pic, ship, bullets, update, breaker){
          bullets[i].val = false;
          this.val = false;
          if( this.size === 'big'){
-           breaker (this.x, this.y);
+           breaker (this.x, this.y, 'big');
+         }if(this.size === 'small'){
+           breaker (this.x, this.y, 'small');
+
          }
       }
     }
