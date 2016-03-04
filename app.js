@@ -64,7 +64,7 @@ $(document).ready(function(){
       $('header').show('slow');
       $('footer').show('slow');
       $('#scoreBoard').hide();
-      $('#scoreBoard').css('position', 'static').css('background-color', 'rgba(172, 172, 164, 0.87)').css('color', 'black').css('border', 'black 1px solid');
+      $('#scoreBoard').css('position', 'static').css('background-color', 'rgba(172, 172, 164, 0.87)').css('color', 'black').css('border', 'white 1px solid');
       $('nav').show('slow');
     }
   }
