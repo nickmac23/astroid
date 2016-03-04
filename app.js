@@ -18,7 +18,7 @@ $(document).ready(function(){
 
   if( nameS === 'recruit'){
     $('#bName').on('click', function () {
-      var nameS = $('#name').val();
+      var nameS = $('#name').val() === '' ? 'recriut' : $('#name').val();
       localStorage.setItem('captain', nameS );
       $('footer').html('<h2> Welcome ' + nameS + '! Click on the arrow keys to scroll through the ships. Press the launch button when you are ready to play.  Use arrow keys to move and space bar to shoot. Avoid being hit...</h2>'  )
 
