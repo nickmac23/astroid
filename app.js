@@ -1,7 +1,7 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-ctx.canvas.width = window.innerWidth * 0.7;
-ctx.canvas.height = window.innerHeight * 0.87;
+ctx.canvas.width = window.innerWidth * 0.75;
+ctx.canvas.height = window.innerHeight * 0.75;
 var highScore = localStorage.getItem('score') >= 0 ? +localStorage.getItem('score') : 0;
 var nameS = localStorage.getItem('captain') ? localStorage.getItem('captain') : 'recruit';
 
@@ -20,12 +20,13 @@ $(document).ready(function(){
     $('#bName').on('click', function () {
       var nameS = $('#name').val();
       localStorage.setItem('captain', nameS );
-      $('header').html('<h1> Welcome aboard ' + nameS + '! </h1><h5> Our warpdrive has malfunctioned and dropped us into an astroid feild! <br> Your mission is to clear all the astroids! Launch your ship as soon as you are ready. </h5>'  )
+      $('footer').html('<h2> Welcome ' + nameS + '! Click on the arrow keys to scroll through ship. Press the launch button when you are ready to play. </h2>'  )
 
     })
   }else{
-    $('header').html('<h1> Welcome back Captain ' + nameS +'! Your ship is ready:')
+    $('footer').html('<h1> Welcome back ' + nameS +'! Your ship is ready.')
   }
+
   $('#shipPic').attr('src', picArray[picCount]);
 
   $('.arrow').on('click', function () {
@@ -44,17 +45,32 @@ $(document).ready(function(){
     }if($(this).attr('id') === 'launch'){
       smallAstroid = 2;
       bigAstroid = 1;
-      update('R', ship.val)
+      update('R', ship.val);
       game(picArray[picCount]);
-      $('header').html('<h1> Warning... Asteroids Approching! </h1>');
-      $('header').css('background-color', 'rgb(219, 230, 14)');
-      $('.lBoard').attr('value', 0);
-
     }
-
   })
 
+  function animate(val) {
+    if(val){
+      $('.lBoard').attr('value', 0);
+      $('header').hide('slow');
+      $('footer').hide('slow');
+      $('#ship').hide('slow');
+      $('#ladderBoard').hide('slow');
+      $('#scoreBoard').css('position', 'fixed').css('background-color', 'transparent').css('color', 'white').css('border', 'none').css('top', '10px').css('left', '10px');
+      $('canvas').show();
+    }else{
+      $('canvas').hide();
+      $('header').show('slow');
+      $('footer').show('slow');
+      $('#scoreBoard').hide();
+      $('#scoreBoard').css('position', 'static').css('background-color', 'rgba(172, 172, 164, 0.87)').css('color', 'black').css('border', 'black 1px solid');
+      $('nav').show('slow');
+    }
+  }
+
   function update (x, dead){
+
     if(x === 'R'){ level = 0; score = 0;}
     if(x === 'L'){level++};
     if(x === 'S'){score += 100};
@@ -62,7 +78,7 @@ $(document).ready(function(){
     if(dead && localStorage.getItem('score') < score){
       localStorage.setItem('score', score);
       highScore = localStorage.getItem('score');
-      fireName = localStorage.getItem('captain') === null ? 'recruit' : localStorage.getItem('captain');
+      fireName = typeof localStorage.getItem('captain') === 'string' ?  localStorage.getItem('captain') : 'recruit' ;
       var userScoreRef = scoreListRef.child(fireName);
       userScoreRef.setWithPriority({name:fireName, score:highScore}, -1  * highScore);
 
@@ -72,9 +88,12 @@ $(document).ready(function(){
       localStorage.setItem('stroidTD', astroidTD);
     }
     $('#scoreBoard').html('<h2> Lvl: ' + level + '</h2> <p> High score: ' + highScore+ '</p><p> current score: '+ score  + ' <h3> Asteroids destroyed: ' + astroidTD + '</h3>')
+
   }
 
 function game (shipPic) {
+  animate(true);
+
   var ship1 = new Image();
     ship1.src = shipPic;
   var astroidMed = new Image();
@@ -158,18 +177,21 @@ function game (shipPic) {
         reset();
       }if(ship.val){
         ship.draw();
+      }else{
+        animate(false);
+        return;
       }
       window.requestAnimationFrame(gameLogic);
     }
 
     reset();
     gameLogic();
-    var saveString = [];
-    scoreListRef.on("child_added", function(snapshot) {
-      var scores = snapshot.val();
-      ladderBoard (scores.name, scores.score);
+  }
 
-    })
+  scoreListRef.on("child_added", function(snapshot) {
+    var scores = snapshot.val();
+    ladderBoard (scores.name, scores.score);
+  })
 
     function ladderBoard (nm, sc){
       if(+sc > $('#1').attr('value')){
@@ -199,5 +221,5 @@ function game (shipPic) {
       }
 
     }
-}
+  update();
 });
