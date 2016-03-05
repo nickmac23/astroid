@@ -121,8 +121,9 @@ function game (shipPic) {
   function breaker (x, y, size) {
     var aSize = size === 'big' ? 'small' : 'tinny';
     var aPic = size === 'big' ? astroidMed : astroidtinny;
+    var pgnSize = size === 'big' ? 100 : 50;
     for (var i = 0; i < 2; i++) {
-      collection.push(new Asteroids (100, 100, aSize, aPic, ship, bullets, update, breaker));
+      collection.push(new Asteroids (pgnSize, pgnSize, aSize, aPic, ship, bullets, update, breaker));
       collection[ collection.length - 1].start(x, y)
     }
   }
