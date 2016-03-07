@@ -123,7 +123,7 @@ function game (shipPic) {
     var aPic = size === 'big' ? astroidMed : astroidtinny;
     var pgnSize = size === 'big' ? 100 : 50;
     for (var i = 0; i < 2; i++) {
-      collection.push(new Asteroids (pgnSize, pgnSize, aSize, aPic, ship, bullets, update, breaker));
+      collection.push(new Asteroids (pgnSizeasd, pgnSize, aSize, aPic, ship, bullets, update, breaker));
       collection[ collection.length - 1].start(x, y)
     }
   }
