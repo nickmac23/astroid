@@ -47,7 +47,6 @@ function Bullets (positionX, positionY, angle){
     this.val = true;
   };
   this.draw = function (){
-    this.wall();
     this.x += this.dv * Math.sin(this.angle);
     this.y -= this.dv * Math.cos(this.angle);
     var dx = Math.pow(this.initx - this.x, 2)
@@ -58,11 +57,5 @@ function Bullets (positionX, positionY, angle){
       this.x = 0;
     }
     ctx.drawImage(bullet1, this.x - 25 , this.y - 10)
-  },
-  this.wall = function () {
-    if(this.x > canvas.width){this.x = 0};
-    if(this.x < 0){this.x = canvas.width};
-    if(this.y > canvas.height){this.y = 0};
-    if(this.y < 0){this.y = canvas.height};
   }
 };
